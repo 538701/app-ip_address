@@ -6,4 +6,4 @@ if( mappedAddress ) {
     } else {
       console.error(`  Problem converting IPv4 ${sampleIpv4s[i]} into a mapped IPv6 address.`);
     }
-  }
+  
