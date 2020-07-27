@@ -28,7 +28,7 @@ function main() {
 
   // Iterate over sampleCidrs and pass the element's value to getFirstIpAddress().
   for (let i = 0; i < sampleCidrsLen; i++) {
-    console.log(`\n--- Test Number ${i + 1} ---`);
+    console.log(`\n--- Test Number ${i + 1} getFirstIpAddress(${sampleCidrs[i]}) ---`);
     // Call getFirstIpAddress and pass the test subnet and an anonymous callback function.
     // The callback is using the fat arrow operator: () => { }
     getFirstIpAddress(sampleCidrs[i], (data, error) => {
