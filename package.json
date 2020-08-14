@@ -1,6 +1,6 @@
 {
   "name": "@acme/app-ip_address",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An IAP product serving IP address management functions.",
   "main": "main.js",
   "scripts": {
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/538701/app-ip_address#readme",
   "dependencies": {
-    "ip-cidr": "^2.0.16"
+    "ip-cidr": "^2.0.17"
   }
 }
