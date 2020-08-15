@@ -21,5 +21,6 @@
   ],
   "dependencies": {
     "ip-cidr": "^2.0.17"
-  }
+  },
+  "devDependencies": {}
 }
