@@ -20,7 +20,7 @@
     "0.1.0"
   ],
   "dependencies": {
-    "ip-cidr": "^2.0.17"
+    "ip-cidr": "^2.1.0"
   },
   "devDependencies": {}
 }
