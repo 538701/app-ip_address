@@ -1,3 +1,30 @@
+/*
+  Import the built-in path module.
+  See https://nodejs.org/api/path.html
+  The path module provides utilities for working with file and directory paths.
+  IAP requires the path module to access local file modules.
+  The path module exports an object.
+  Assign the imported object to variable path.
+*/
+const path = require('path');
+
+/**
+ * Import helper function module located in the same directory
+ * as this module. IAP requires the path object's join method
+ * to unequivocally locate the file module.
+ */
+const { getIpv4MappedIpv6Address } = require(path.join(__dirname, 'ipv6.js'));
+
+/*
+  Import the ip-cidr npm package.
+  See https://www.npmjs.com/package/ip-cidr
+  The ip-cidr package exports a class.
+  Assign the class definition to variable IPCIDR.
+*/
+const IPCIDR = require('ip-cidr');
+
+
+
 class IpAddress {
     constructor() {
         // IAP's global log object is used to output errors, warnings, and other
@@ -17,7 +44,11 @@ class IpAddress {
     getFirstIpAddress(cidrStr, callback) {
 
         // Initialize return arguments for callback
-        let firstIpAddress = null;
+        let firstIpAddress = {
+            ipv4 :null,
+            ipv6 :null
+        };
+        
         let callbackError = null;
 
         // Instantiate an object from the imported class and assign the instance to variable cidr.
@@ -29,6 +60,7 @@ class IpAddress {
             from: 1,
             limit: 1
         };
+
         // Use the object's isValid() method to verify the passed CIDR.
         if (!cidr.isValid()) {
             // If the passed CIDR is invalid, set an error message.
@@ -36,7 +68,8 @@ class IpAddress {
         } else {
             // If the passed CIDR is valid, call the object's toArray() method.
             // Notice the destructering assignment syntax to get the value of the first array's element.
-            [firstIpAddress] = cidr.toArray(options);
+            [firstIpAddress.ipv4] = cidr.toArray(options);            
+            firstIpAddress.ipv6 = getIpv4MappedIpv6Address(firstIpAddress.ipv4);
         }
         // Call the passed callback function.
         // Node.js convention is to pass error data as the first argument to a callback.
@@ -44,61 +77,6 @@ class IpAddress {
         // data as the second argument to the callback function.
         return callback(firstIpAddress, callbackError);
     }
-  }
-  module.exports = new IpAddress; 
-
-/*
-  This section is used to test function and log any errors.
-  We will make several positive and negative tests.
-*/
-function main() {
-  // Create an array of tests with both valid CIDR and invalid IP subnets.
-  let sampleCidrs = ['172.16.10.0/24', '172.16.10.0 255.255.255.0', '172.16.10.128/25', '192.168.1.216/30'];
-  let sampleCidrsLen = sampleCidrs.length;
-
-  // Iterate over sampleCidrs and pass the element's value to getFirstIpAddress().
-  for (var i = 0; i < sampleCidrsLen; i++) {
-    console.log(`\n--- Test Number ${i + 1} getFirstIpAddress(${sampleCidrs[i]}) ---`);
-    // Call getFirstIpAddress and pass the test subnet and an anonymous callback function.
-    // The callback is using the fat arrow operator: () => { }
-    getFirstIpAddress(sampleCidrs[i], (data, error) => {
-      // Now we are inside the callback function.
-      // Display the results on the console.
-      if (error) {
-        console.error(`Error returned from GET request: ${error}`);
-      } else {
-        console.log(`Response returned from GET request: ${data}`);
-      }
-    });
-  }
-   // Iterate over sampleIpv4s and pass the element's value to getIpv4MappedIpv6Address().
-  for (let i = 0; i < sampleIpv4sLen; i++) {
-    console.log(`\n--- Test Number ${i + 1} getIpv4MappedIpv6Address(${sampleIpv4s[i]}) ---`);
-    // Assign the function results to a variable so we can check if a string or null was returned.
-    let mappedAddress = getIpv4MappedIpv6Address(sampleIpv4s[i]);
-    if( mappedAddress ) {
-      console.log(`  IPv4 ${sampleIpv4s[i]} mapped to IPv6 Address: ${mappedAddress}`);
-    } else {
-      console.error(`  Problem converting IPv4 ${sampleIpv4s[i]} into a mapped IPv6 address.`);
-    }
-  }
 }
-/*
-  Import the built-in path module.
-  See https://nodejs.org/api/path.html
-  The path module provides utilities for working with file and directory paths.
-  IAP requires the path module to access local file modules.
-  The path module exports an object.
-  Assign the imported object to variable path.
-*/
-const path = require('path');
 
-/**
- * Import helper function module located in the same directory
- * as this module. IAP requires the path object's join method
- * to unequivocally locate the file module.
- */
-const { getIpv4MappedIpv6Address } = require(path.join(__dirname, 'ipv6.js'));
-
-
-
+module.exports = new IpAddress;

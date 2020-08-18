@@ -3,21 +3,20 @@
   "version": "0.1.0",
   "description": "An IAP product serving IP address management functions.",
   "main": "main.js",
-  "dependencies": {
-    "ip-cidr": "^2.1.0"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/538701/app-ip_address.git"
+    "url": "git+https://github.com/dsouzawilbur/app-ip_address.git"
   },
   "author": "ACME",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://github.com/538701/app-ip_address/issues"
+    "url": "https://github.com/dsouzawilbur/app-ip_address/issues"
   },
-  "homepage": "https://github.com/538701/app-ip_address#readme"
+  "homepage": "https://github.com/dsouzawilbur/app-ip_address#readme",
+  "dependencies": {
+    "ip-cidr": "^2.0.17"
+  }
 }
